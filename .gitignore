@@ -1,0 +1,20 @@
+# ignore objects and libraries
+*.o
+*.a
+*.d
+*.so
+*.lo
+*.la
+# ignore python compiled files
+*.pyc
+# we don't care about vi swp files
+*.swp
+# we also don't care about emacs swap files
+*~
+/ros_ws/build
+/ros_ws/devel
+# Testing output files
+*.out
+
+# Catkin custom files
+CATKIN_IGNORE
