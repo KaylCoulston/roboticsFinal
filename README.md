@@ -31,14 +31,14 @@ Instructions for running the code "go_to_specific_point_on_map.py",
 
 ======================================
 
-install the following Ros-library.
+install the following dependencies
 
 $ sudo apt-get install ros-indigo-move-base-msgs
 
-In order to use it:
+Instructions to run test it:
 
+A map is required to be already saved on the turtlebot station
 Connect the turtlebot to the workstation
-
 Then ssh into the turtlebot and type the following command:
 
 $ roslaunch turtlebot_bringup minimal.launch
