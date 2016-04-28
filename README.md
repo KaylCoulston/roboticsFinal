@@ -27,39 +27,39 @@ The levels of deliverables are as follows:
  
  ====================================
 
-Instructions for running the code "go_to_specific_point_on_map.py", 
+Instructions for running the code `go_to_specific_point_on_map.py`, 
 
 ======================================
 
 install the following dependencies
 
-$ sudo apt-get install ros-indigo-move-base-msgs
+`$ sudo apt-get install ros-indigo-move-base-msgs`
 
 Instructions to run test it:
 
 A map is required to be already saved on the turtlebot station
 Connect the turtlebot to the workstation
-Then ssh into the turtlebot and type the following command:
+Then `ssh` into the turtlebot and type the following command:
 
-$ roslaunch turtlebot_bringup minimal.launch
+`$ roslaunch turtlebot_bringup minimal.launch`
 
-in another terminal (ssh into the turtlebot)
+in another terminal (`ssh` into the turtlebot)
 
-$ roslaunch turtlebot_navigation amcl_demo.launch map_file:=<location of the map in the turtlebot>
+`$ roslaunch turtlebot_navigation amcl_demo.launch map_file:=<location of the map in the turtlebot>`
 
 on the workstation open a terminal and type the following:
 
-$ roslaunch turtlebot_rviz_launchers view_navigation.launch --screen
+`$ roslaunch turtlebot_rviz_launchers view_navigation.launch --screen`
 
 Select "2D pose estimate" and select the direction of the of the turtlebot
 
 Then we are ready to go :
 
-edit the code by giving in the set co ordinates by using "publish point" from rviz
+edit the code by giving in the set coordinates by using "publish point" from `rviz`
 
 then in a new terminal:
 
-$ python /go_to_specific_point_on_map.py
+`$ python /go_to_specific_point_on_map.py`
 
 ========================================
 
