@@ -44,8 +44,12 @@ Create a launch file
 
 Copy and paste the following code to `alvar.launch` file
 
-```<launch>
-    <include file="$(find turtlebot_bringup)/launch/3dsensor.launch"/>
+```
+<launch>
+    <!--If you are not using gmapping, UNCOMMENT the following line.
+        However, if you are using gmapping, you need to run amcl_demo.launch before
+        running alvar.launch-->
+    <!--<include file="$(find turtlebot_bringup)/launch/3dsensor.launch"/>-->
 
     <arg name="marker_size"          default="5.0" />
     <arg name="max_new_marker_error" default="0.05" />
