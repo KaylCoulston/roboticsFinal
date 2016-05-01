@@ -89,7 +89,7 @@ Then `ssh` into the turtlebot and type the following command:
 
 in another terminal (`ssh` into the turtlebot)
 
-`$ roslaunch turtlebot_navigation amcl_demo.launch map_file:=<location of the map in the turtlebot>`
+`$ roslaunch turtlebot_navigation amcl_demo.launch map_file:=<location of the map in the turtlebot.yaml>`
 
 on the workstation open a terminal and type the following:
 
