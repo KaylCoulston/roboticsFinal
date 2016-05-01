@@ -27,6 +27,41 @@ The levels of deliverables are as follows:
  
 
 
+Instructions for sending robot to a point in the map
+---------------
+
+Install the following dependencies
+
+`$ sudo apt-get install ros-indigo-move-base-msgs`
+
+Instructions to run test it:
+
+A map is required to be already saved on the turtlebot station
+Connect the turtlebot to the workstation
+Then `ssh` into the turtlebot and type the following command:
+
+`$ roslaunch turtlebot_bringup minimal.launch`
+
+in another terminal (`ssh` into the turtlebot)
+
+`$ roslaunch turtlebot_navigation amcl_demo.launch map_file:=<location of the map in the turtlebot.yaml>`
+
+on the workstation open a terminal and type the following:
+
+`$ roslaunch turtlebot_rviz_launchers view_navigation.launch --screen`
+
+Select "2D pose estimate" and select the direction of the of the turtlebot
+
+Then we are ready to go :
+
+edit the code by giving in the set coordinates by using "publish point" from `rviz`
+
+then in a new terminal:
+
+`$ python /go_to_specific_point_on_map.py`
+
+
+
 Instructions for using AR Tags
 ---------------
 
@@ -39,7 +74,9 @@ Install `AR_Track_Alvar` in the Turtlebot Laptop
 Create a launch file
 
 `$ roscd turtlebot_bringup`
+
 `$ cd launch`
+
 `$ sudo nano alvar.launch`
 
 Copy and paste the following code to `alvar.launch` file
@@ -76,38 +113,18 @@ To create AR Tags, use the following command. It'll prompt for the AR Tag ID you
 
 
 
-Instructions for sending robot to a point in the map
+Instructions for auto-docking
 ---------------
 
-Install the following dependencies
+Docking station must be 3 meters in line of sight for the Turtlebot to successfully dock. We assume that `minimal.launch` is already running. Instructions from [here](http://learn.turtlebot.com/2015/02/01/12/).
 
-`$ sudo apt-get install ros-indigo-move-base-msgs`
+On the workstation run:
 
-Instructions to run test it:
+`$ roslaunch kobuki_auto_docking minimal.launch --screen`
 
-A map is required to be already saved on the turtlebot station
-Connect the turtlebot to the workstation
-Then `ssh` into the turtlebot and type the following command:
+On a new terminal run:
 
-`$ roslaunch turtlebot_bringup minimal.launch`
-
-in another terminal (`ssh` into the turtlebot)
-
-`$ roslaunch turtlebot_navigation amcl_demo.launch map_file:=<location of the map in the turtlebot.yaml>`
-
-on the workstation open a terminal and type the following:
-
-`$ roslaunch turtlebot_rviz_launchers view_navigation.launch --screen`
-
-Select "2D pose estimate" and select the direction of the of the turtlebot
-
-Then we are ready to go :
-
-edit the code by giving in the set coordinates by using "publish point" from `rviz`
-
-then in a new terminal:
-
-`$ python /go_to_specific_point_on_map.py`
+`$ roslaunch kobuki_auto_docking activate.launch --screen`
 
 
 
