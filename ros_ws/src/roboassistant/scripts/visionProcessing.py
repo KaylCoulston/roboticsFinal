@@ -1,8 +1,5 @@
 #!/usr/bin/env python
 
-#NOTE: Still need to test and do all the todo's
-#      Still need to check for errors
-
 import roslib
 import rospy
 
@@ -20,28 +17,6 @@ from imageConverter import ToOpenCV
 #NOTE
 KINECT_MAX_DEPTH = 5.55
 KINECT_MIN_DEPTH = 0.35
-
-TARGET_MASK = "Masked Image"
-cv2.namedWindow(TARGET_MASK)
-
-#HSV filter values
-#This is for green
-h_min = 48
-h_max = 90
-s_min = 55
-s_max = 148
-v_min = 84
-v_max = 156
-
-def nothing(x):
-    pass
-
-cv2.createTrackbar('LowH', TARGET_MASK, h_min, 179, nothing)
-cv2.createTrackbar('HighH', TARGET_MASK, h_max, 179, nothing)
-cv2.createTrackbar('LowS', TARGET_MASK, s_min, 255, nothing)
-cv2.createTrackbar('HighS', TARGET_MASK, s_max, 255, nothing)
-cv2.createTrackbar('LowV', TARGET_MASK, v_min, 255, nothing)
-cv2.createTrackbar('HighV', TARGET_MASK, v_max, 255, nothing)
 
 erodeKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3,3))
 dilateKernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))
@@ -67,19 +42,6 @@ class Kinect_Ros ():
         self.lower_target_range_two =  (145, 71, 168)
         self.upper_target_range_two = (179, 156, 214)
 
-        #get trackbar Location
-        h_min = cv2.getTrackbarPos('LowH', TARGET_MASK)
-        h_max = cv2.getTrackbarPos('HighH', TARGET_MASK)
-        s_min = cv2.getTrackbarPos('LowS', TARGET_MASK)
-        s_max = cv2.getTrackbarPos('HighS', TARGET_MASK)
-        v_min = cv2.getTrackbarPos('LowV', TARGET_MASK)
-        v_max = cv2.getTrackbarPos('HighV', TARGET_MASK)
-
-        #test
-        self.lower_target_range_one = (h_min, s_min, v_min)
-        self.upper_target_range_one = (h_max, s_max, v_max)
-
-
         self.process_image()
 
     def saveDepthImage(self, data):
@@ -102,24 +64,18 @@ class Kinect_Ros ():
         images["OuterColor"] = cv2.inRange (images["HSV"], self.lower_target_range_one, self.upper_target_range_one)
         images["InnerColor"] = cv2.inRange (images["HSV"], self.lower_target_range_two, self.upper_target_range_two)
 
-        #clear up image
+        #clear up images
         images["OuterColor"] = cv2.erode(images["OuterColor"], erodeKernel, iterations = 2)
         images["OuterColor"] = cv2.dilate(images["OuterColor"], dilateKernel, iterations = 1)
-
-        #clear up image
-        images["InnerColor"] = cv2.erode(images["OuterColor"], erodeKernel, iterations = 2)
-        images["InnerColor"] = cv2.dilate(images["OuterColor"], dilateKernel, iterations = 1)
+        images["InnerColor"] = cv2.erode(images["InnerColor"], erodeKernel, iterations = 2)
+        images["InnerColor"] = cv2.dilate(images["InnerColor"], dilateKernel, iterations = 1)
 
 
 
-        #Show images
-        #test
-        cv2.imshow (TARGET_MASK, images["OuterColor"])
-        cv2.waitKey(25)
-
-        cv2.imshow ("Color One Processed", images["OuterColor"])
-        cv2.imshow ("Color Two Processed", images["InnerColor"])
-        cv2.waitKey(25)
+        #Show images (for testing)
+        #cv2.imshow ("Color One Processed", images["OuterColor"])
+        #cv2.imshow ("Color Two Processed", images["InnerColor"])
+        #cv2.waitKey(25)
 
         #find targets
         outer_x, outer_y, outer_w, outer_h = self.find_target(images["OuterColor"])
@@ -133,10 +89,6 @@ class Kinect_Ros ():
             #get distance
             depth = self.getDepth(center_inner_x, center_inner_y)
 
-            #TODO: Fix
-            #Print content
-            #ROS_INFO("Target: %s" str(center_inner_x) + ", " + str(center_inner_y) + ", " + str(depth))
-
             #declare position variable
             binPosition = BinPosition();
 
@@ -147,8 +99,6 @@ class Kinect_Ros ():
 
             #publish
             self.publish.publish(binPosition)
-        #else:
-            #ROS_INFO("Target NOT found")
 
     def find_target(self, image):
         # Target Location
@@ -158,7 +108,7 @@ class Kinect_Ros ():
         areas = [cv2.contourArea(c) for c in contours]
 
         #Initialize for use
-        x = y = w = h = 0
+        x = y = w = h = -1
 
         if len(areas) >= 1:
             max_index = np.argmax(areas)
@@ -168,8 +118,6 @@ class Kinect_Ros ():
             x, y, w, h = cv2.boundingRect(cnt)
             cv2.rectangle(image, (x,y), (x+w, y+h), (0,0,255), 2)
 
-            return (x, y, w, h)
-        else:
-            return(-1, -1, -1, -1)
+        return (x, y, w, h)
 
 kinect = Kinect_Ros()
