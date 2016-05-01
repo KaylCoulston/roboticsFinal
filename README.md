@@ -105,6 +105,29 @@ then in a new terminal:
 
 `$ python /go_to_specific_point_on_map.py`
 
+
+
+Instructions for setting up people detection
+---------------
+
+Install the following dependencies
+
+'$ sudo apt-get install ros-indigo-people'
+'$ sudo apt-get install ros-indigo-robot-pose-ekf'
+
+Start on the Turtlebot
+
+'$ roslaunch turtlebot_bringup 3dsensor.launch'
+
+Use the extended Kalman filter to get /odom_combined
+
+'$ rosrun robot_pose_ekf robot_pose_ekf'
+
+Launch the leg detector
+
+'$ roslaunch leg_detector turtlebot.launch'
+
+
 ========================================
 
  
