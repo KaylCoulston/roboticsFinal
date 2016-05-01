@@ -14,10 +14,10 @@ def ToOpenCV(ros_image):
         print e
         raise Exception("Failed to convert to OpenCV image")
 
-        def ToRos(cv_image):
-            try:
-                ros_image = CvBridge().bridge.cv2_to_imgmsg(cv_image, desired_encoding="passthrough")
-                return ros_image
-            except CvBridgeError, e:
-                print e
-                raise Exception("Failed to convert to ROS image")
+    def ToRos(cv_image):
+        try:
+            ros_image = CvBridge().bridge.cv2_to_imgmsg(cv_image, desired_encoding="passthrough")
+            return ros_image
+        except CvBridgeError, e:
+            print e
+            raise Exception("Failed to convert to ROS image")
