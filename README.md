@@ -73,11 +73,11 @@ Install `AR_Track_Alvar` in the Turtlebot Laptop
 
 Create a launch file
 
-`$ roscd turtlebot_bringup`
-
-`$ cd launch`
-
-`$ sudo nano alvar.launch`
+```
+$ roscd turtlebot_bringup
+$ cd launch
+$ sudo nano alvar.launch
+```
 
 Copy and paste the following code to `alvar.launch` file
 
@@ -133,9 +133,10 @@ Instructions for setting up people detection
 
 Install the following dependencies
 
-`$ sudo apt-get install ros-indigo-people`
-
-`$ sudo apt-get install ros-indigo-robot-pose-ekf`
+```
+$ sudo apt-get install ros-indigo-people
+$ sudo apt-get install ros-indigo-robot-pose-ekf
+```
 
 Start on the Turtlebot
 
