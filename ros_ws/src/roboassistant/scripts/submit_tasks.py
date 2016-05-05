@@ -3,6 +3,10 @@
 import sqlite3
 import datetime
 
+fp = open('id_num.txt', 'r')
+id_num = fp.readline()
+id_num = int(id_num.rstrip()) + 1
+fp.close()
 conn = sqlite3.connect('tasks.db')
 c = conn.cursor()
 
@@ -29,17 +33,24 @@ while dropoff_loc not in valid_locs:
 
 now = datetime.datetime.now()
 # Insert a row of data
-insert_command = "INSERT INTO tasks VALUES ('%s',%d,%d)" % (str(now), pickup_loc, dropoff_loc)
-print insert_command
+insert_command = "INSERT INTO tasks VALUES (%d,'%s',%d,%d)" % (id_num, str(now), pickup_loc, dropoff_loc)
 c.execute(insert_command)
+# update id num
+fp = open('id_num.txt', 'w')
+fp.write(str(id_num))
+fp.close()
 
 # Save (commit) the changes
 conn.commit()
 print "Your task request is now added to the queue!\n"
 
+# c.execute('SELECT Count(*) FROM tasks')
+# print c.fetchone()
+
+
 print "Tasks Queue:"
-for row in c.execute('SELECT * FROM tasks ORDER BY date'):
-    print str(row[0]), "from", dict_locs[row[1]], "to", dict_locs[row[2]]
+for row in c.execute('SELECT * FROM tasks ORDER BY date_time'):
+    print row[0], str(row[1]), "from", dict_locs[row[2]], "to", dict_locs[row[3]]
 
 # We can also close the connection if we are done with it.
 # Just be sure any changes have been committed or they will be lost.
