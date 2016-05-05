@@ -2,18 +2,20 @@
 <package>
   <name>roboassistant</name>
   <version>0.0.0</version>
-  <description>The roboassistant package</description>
+  <description>The Roboassistant Package</description>
 
-  <!-- One maintainer tag required, multiple allowed, one person per tag --> 
+  <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
   <!-- <maintainer email="jane.doe@example.com">Jane Doe</maintainer> -->
-  <maintainer email="gabrieledcjr@todo.todo">gabrieledcjr</maintainer>
-
+  <maintainer email="gabrieledcjr@gmail.com">Gabriel V. de la Cruz Jr.</maintainer>
+  <maintainer email="goelshivam1210@gmail.com">Shivam Goel</maintainer>
+  <maintainer email="kaylcoulston@gmail.com">Kayl Coulston</maintainer>
+  <maintainer email="zhaodwang@gmail.com">Zhaodong Wang</maintainer>
 
   <!-- One license tag required, multiple allowed, one license per tag -->
   <!-- Commonly used license strings: -->
   <!--   BSD, MIT, Boost Software License, GPLv2, GPLv3, LGPLv2.1, LGPLv3 -->
-  <license>TODO</license>
+  <license>LGPLv2</license>
 
 
   <!-- Url tags are optional, but mutiple are allowed, one per tag -->
@@ -44,10 +46,15 @@
   <build_depend>rospy</build_depend>
   <build_depend>std_msgs</build_depend>
   <build_depend>message_generation</build_depend>
+  <build_depend>actionlib</build_depend>
+  <build_depend>actionlib_msgs</build_depend>
+
   <run_depend>roscpp</run_depend>
   <run_depend>rospy</run_depend>
   <run_depend>std_msgs</run_depend>
   <run_depend>message_runtime</run_depend>
+  <run_depend>actionlib</run_depend>
+  <run_depend>actionlib_msgs</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->

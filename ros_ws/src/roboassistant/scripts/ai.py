@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
-#import roslib
-#roslib.load_manifest('roboassistant')
+import roslib; roslib.load_manifest('roboassistant')
 import rospy
 import Queue
 import sys
