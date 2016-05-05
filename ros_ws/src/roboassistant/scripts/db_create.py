@@ -8,7 +8,7 @@ c = conn.cursor()
 
 # Create table
 c.execute('''CREATE TABLE tasks
-             (date text, pickup_id int, drop_id int)''')
+             (id int primary key not null, date_time text not null, pickup_id int not null, drop_id int not null)''')
 
 
 # Save (commit) the changes
