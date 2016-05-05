@@ -10,7 +10,11 @@ from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 import actionlib
 from actionlib_msgs.msg import *
 from geometry_msgs.msg import Pose, Point, Quaternion
+import math
+from tf import transformations
 
+
+turtlebot_orientation_in_degrees = 0
 class GoToPose():
     def __init__(self):
 
@@ -33,8 +37,9 @@ class GoToPose():
         goal = MoveBaseGoal()
         goal.target_pose.header.frame_id = 'map'
         goal.target_pose.header.stamp = rospy.Time.now()
+        quat = transformations.quaternion_from_euler(0, 0, math.radians(turtlebot_orientation_in_degrees))
         goal.target_pose.pose = Pose(Point(pos['x'], pos['y'], 0.000),
-                                     Quaternion(quat['r1'], quat['r2'], quat['r3'], quat['r4']))
+                                     Quaternion(quat[0], quat[1], quat[2], quat[3]))
 
         # Start moving
         self.move_base.send_goal(goal)
@@ -66,9 +71,11 @@ if __name__ == '__main__':
         navigator = GoToPose()
 
         # log in the x and y values here so that the turtlebot goes to the required pose
-        position = {'x': -0.585, 'y' : 1.29}
+        position = {'x': -1.67, 'y' : 5.72}
         #this is not required to be changed
-        quaternion = {'r1' : 0.000, 'r2' : 0.000, 'r3' : 0.000, 'r4' : 1.000}
+        turtlebot_orientation_in_degrees = 180
+        quat = transformations.quaternion_from_euler(0, 0, math.radians(turtlebot_orientation_in_degrees))
+        quaternion = {quat[0], quat[1], quat[2], quat[3]}
 
         rospy.loginfo("Go to (%s, %s) pose", position['x'], position['y'])
         success = navigator.goto(position, quaternion)
