@@ -6,6 +6,7 @@ import Queue
 import sys
 import sqlite3
 from geometry_msgs.msg import Twist
+from move_base_msgs.msg import MoveBaseActionResults
 from go_to_specific_point_on_map import GoToPose
 
 PICK_UP = 0
@@ -30,6 +31,8 @@ tasks.put((POSITIONS[DESK_3], DESK_3,
 tasks.put((POSITIONS[DESK_1], DESK_1,
            POSITIONS[FRONT_DESK], FRONT_DESK))
 
+result = -1 #FILL THIS IN
+
 class AI():
 
     def __init__(self, isDocked=True):
@@ -45,7 +48,11 @@ class AI():
         self.navigator = GoToPose()
 
         self.cmd_vel = rospy.Publisher('/cmd_vel_mux/input/navi', Twist, queue_size=1)
+        self.sub = rospy.Subscriber('/move_base/result', MoveBaseActionResult, self.result_callback)
 
+    def result_callback(self, actionResult):
+         result = actionResult.result
+         
     def start(self):
         while True:
             if rospy.is_shutdown():
@@ -77,9 +84,9 @@ class AI():
 
                     if success:
                         rospy.loginfo("Reached the desired pose")
-                    else:
+                    elif result == 4: # Didnt reach its destination
                         # put task back to the Queue
-                        # TODO: NEED TO FIX LOGIC WHEN IT FAILS
+                        # TODO: Add ros actionlib
                         isFail = True
                         rospy.loginfo("WARNING: The base failed to reach the desired pose")
 
