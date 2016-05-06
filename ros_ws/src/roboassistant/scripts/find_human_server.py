@@ -61,16 +61,23 @@ class MoveCloseToTagServer:
                     person_found = 1
                     cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
 
-            cv2.imshow('img',img)
+            # Testing
+            cv2.imshow('image',self.image)
             cv2.waitKey(2)
 
             if person_found == 1:
-                
+                # Ask them for help
+                self.speach_cmd.publish('Human please help me')
+            else:
+                # Keep looking for human (spinning)
+                twist_cmd = Twist()
+                twist_cmd.angular.z = .5
+                self.cmd_vel.publish(twist_cmd)    
 
 
 
 
 if __name__ == '__main__':
     rospy.init_node('find_human_server')
-    server = MoveCloseToTagServer(rospy.get_name())
+    server = FindHumanServer(rospy.get_name())
     rospy.spin()
