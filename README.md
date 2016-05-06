@@ -126,3 +126,23 @@ On a new terminal run:
 
 `$ roslaunch kobuki_auto_docking activate.launch --screen`
 
+Instructions for sound_playing
+---------------
+
+On the turtlebot run:
+
+`$ rosrun sound_play soundplay_node.py`
+
+Instructions for robot_arm_motion
+---------------
+
+Install rosserial_arduino on turtlebot:
+
+```
+$ sudo apt-get install ros-indigo-rosserial-arduino`
+$ sudo apt-get install ros-indigo-rosserial`
+```
+On the turtlebot, run the rosserial client application to start the communication with ROS:
+
+`$ rosrun rosserial_python serial_node.py /dev/ttyACM0`
+
