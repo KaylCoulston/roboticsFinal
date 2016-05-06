@@ -163,6 +163,7 @@ Instructions for robot_arm_motion
 Install rosserial_arduino on turtlebot:
 
 `$ sudo apt-get install ros-indigo-rosserial-arduino`
+
 `$ sudo apt-get install ros-indigo-rosserial`
 
 On the turtlebot, run the rosserial client application to start the communication with ROS:
