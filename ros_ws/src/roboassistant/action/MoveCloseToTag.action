@@ -1,0 +1,8 @@
+# Define the goal
+uint32 ar_tag_id  # Specify which AR tag ID to move close to
+---
+# Define the result
+bool completed  # 1 success, 0 failed
+---
+# Define a feedback messages
+float32 distance # distance to AR tag, must be within a threshold

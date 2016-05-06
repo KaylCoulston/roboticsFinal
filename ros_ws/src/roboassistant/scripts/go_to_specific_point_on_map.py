@@ -3,8 +3,7 @@
 # TurtleBot must have minimal.launch & amcl_demo.launch
 # running prior to starting this script
 # For simulation: launch gazebo world & amcl_demo prior to run this script
-#import roslib
-#roslib.load_manifest('roboassistant')
+import roslib; roslib.load_manifest('roboassistant')
 import rospy
 from move_base_msgs.msg import MoveBaseAction, MoveBaseGoal
 import actionlib
