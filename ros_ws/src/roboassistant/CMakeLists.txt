@@ -67,6 +67,7 @@ add_action_files(
   action
   FILES
   MoveCloseToTag.action
+  FindHuman.action
 )
 
 ## Generate added messages and services with any dependencies listed here
