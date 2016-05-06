@@ -11,6 +11,7 @@ from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 from roboassistant.msg import FindHumanAction, FindHumanFeedback, FindHumanResult
+from sound_play.libsoundplay import SoundClient
 
 bridge = CvBridge()
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -32,7 +33,6 @@ class MoveCloseToTagServer:
     def __init__(self, name):
         self.__action_name = name
 	self.cmd_vel = rospy.Publisher('/cmd_vel_mux/input/navi', Twist, queue_size=1)
-        self.speach_cmd = rospy.Publisher('/'
         rospy.Subscriber('/camera/rgb/image_raw', Image, self.image_callback)
 	rospy.sleep(2)
 
@@ -67,10 +67,13 @@ class MoveCloseToTagServer:
 
             if person_found == 1:
                 # Ask them for help
-                self.speach_cmd.publish('Human please help me')
+                soundhandle = SoundClient()
+                rospy.sleep(1)
+                soundhandle.playWave('Human please help clear my path')
             else:
                 # Keep looking for human (spinning)
                 twist_cmd = Twist()
+                rospy.sleep(1)
                 twist_cmd.angular.z = .5
                 self.cmd_vel.publish(twist_cmd)    
 
