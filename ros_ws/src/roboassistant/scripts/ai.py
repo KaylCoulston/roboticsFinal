@@ -8,6 +8,7 @@ import sqlite3
 import math
 from roboassistant.msg import Action
 from geometry_msgs.msg import Twist
+from move_base_msgs.msg import MoveBaseActionResults
 from go_to_specific_point_on_map import GoToPose
 from move_to_tag_client import MoveCloseToTag
 from tf import transformations
@@ -36,6 +37,8 @@ tasks.put((POSITIONS[DESK_3][LOCATION], DESK_3,
 tasks.put((POSITIONS[DESK_1][LOCATION], DESK_1,
            POSITIONS[FRONT_DESK][LOCATION], FRONT_DESK))
 
+result = -1 #FILL THIS IN
+
 class AI():
 
     def __init__(self, isDocked=True):
@@ -55,6 +58,10 @@ class AI():
 
     def move_arm_status_cb(self, data):
         self.arm_status = data.status
+
+
+    def result_callback(self, actionResult):
+         result = actionResult.result
 
     def start(self):
         while True:
@@ -92,9 +99,9 @@ class AI():
 
                     if success:
                         rospy.loginfo("Reached the desired pose")
-                    else:
+                    elif result == 4: # Didnt reach its destination
                         # put task back to the Queue
-                        # TODO: NEED TO FIX LOGIC WHEN IT FAILS
+                        # TODO: Add ros actionlib
                         isFail = True
                         rospy.loginfo("WARNING: The base failed to reach the desired pose")
 

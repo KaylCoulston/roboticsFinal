@@ -1,0 +1,8 @@
+# Define the goal
+uint32 goal_id
+---
+# Define the result
+uint32 completed # 1 success, 0 failed
+---
+# Define a feedback message
+float32 status # 1 found human, 0 couldnt find human

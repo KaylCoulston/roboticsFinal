@@ -70,9 +70,9 @@ if __name__ == '__main__':
         navigator = GoToPose()
 
         # log in the x and y values here so that the turtlebot goes to the required pose
-        position = {'x': -1.67, 'y' : 5.72}
+        position = {'x': -0.75, 'y' : -.102}
         #this is not required to be changed
-        turtlebot_orientation_in_degrees = 180
+        turtlebot_orientation_in_degrees = 0
         quat = transformations.quaternion_from_euler(0, 0, math.radians(turtlebot_orientation_in_degrees))
         quaternion = {quat[0], quat[1], quat[2], quat[3]}
 
