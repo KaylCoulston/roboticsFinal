@@ -150,3 +150,12 @@ Launch the leg detector
 
 `$ roslaunch leg_detector turtlebot.launch`
 
+Instructions for sound_playing
+---------------
+
+On the turtlebot run:
+
+`$ rosrun sound_play soundplay_node.py
+
+
+
