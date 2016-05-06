@@ -11,7 +11,7 @@ import actionlib
 from roboassistant.msg import FindHumanAction, FindHumanGoal
 
 
-class MoveCloseToTag():
+class FindHuman():
     def __init__(self):
         self.goal_sent = False
 
@@ -20,25 +20,27 @@ class MoveCloseToTag():
 
         # Creates the SimpleActionClient, passing the type of the action
         # (FibonacciAction) to the constructor.
-        self.client = actionlib.SimpleActionClient('find_human', MoveCloseToTagAction)
+        self.client = actionlib.SimpleActionClient('find_human', FindHumanAction)
         rospy.loginfo("Wait for the action server to come up")
 
         # Waits until the action server has started up and started
         # listening for goals.
         self.client.wait_for_server(rospy.Duration(5))
 
-    def move_to(self, ar_id_goal):
+    def find(self):
         # Send a goal
         self.goal_sent = True
         # Creates a goal to send to the action server.
-        goal = MoveCloseToTagGoal(ar_tag_id=ar_id_goal)
+        goal = FindHumanGoal(goal_id=1)
 
+        print "Testing"
         # Sends the goal to the action server.
         self.client.send_goal(goal)
+        print "testing 2"
 
         # Waits for the server to finish performing the action.
         self.client.wait_for_result(rospy.Duration(60))
-
+        print "testing 3"
         # Prints out the result of executing the action
         self.goal_sent = False
         return self.client.get_result()  # A FibonacciResult
@@ -54,8 +56,8 @@ if __name__ == '__main__':
         # Initializes a rospy node so that the SimpleActionClient can
         # publish and subscribe over ROS.
         rospy.init_node('find_human_client')
-        navigator = MoveCloseToTag()
-        result = navigator.move_to(7)
+        navigator = FindHuman()
+        result = navigator.find()
         print "Result:", "Failed!" if result.completed else "Success!"
     except rospy.ROSInterruptException:
         print "program interrupted before completion"

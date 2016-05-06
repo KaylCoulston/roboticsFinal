@@ -32,6 +32,7 @@ class MoveCloseToTag():
         # Send a goal
         self.goal_sent = True
         # Creates a goal to send to the action server.
+        rospy.loginfo("Move toward AR Tag ID %i" % ar_id_goal)
         goal = MoveCloseToTagGoal(ar_tag_id=ar_id_goal)
 
         # Sends the goal to the action server.
@@ -56,7 +57,7 @@ if __name__ == '__main__':
         # publish and subscribe over ROS.
         rospy.init_node('move_to_tag_client')
         navigator = MoveCloseToTag()
-        result = navigator.move_to(7)
+        result = navigator.move_to(12)
         print "Result:", "Failed!" if result.completed else "Success!"
     except rospy.ROSInterruptException:
         print "program interrupted before completion"

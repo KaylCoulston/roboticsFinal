@@ -11,6 +11,7 @@ from geometry_msgs.msg import Twist
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 from roboassistant.msg import FindHumanAction, FindHumanFeedback, FindHumanResult
+from sound_play.libsoundplay import SoundClient
 
 bridge = CvBridge()
 face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
@@ -24,28 +25,28 @@ def ToOpenCV(ros_image):
     print(e)
     raise Exception("Failed to convert to OpenCV image")
 
-class MoveCloseToTagServer:
+class FindHumanServer:
     # create messages that are used to publish feedback/result
     __feedback = FindHumanFeedback()
     __result = FindHumanResult()
 
     def __init__(self, name):
         self.__action_name = name
-	self.cmd_vel = rospy.Publisher('/cmd_vel_mux/input/navi', Twist, queue_size=1)
-        self.speach_cmd = rospy.Publisher('/'
+        self.cmd_vel = rospy.Publisher('/cmd_vel_mux/input/navi', Twist, queue_size=1)
         rospy.Subscriber('/camera/rgb/image_raw', Image, self.image_callback)
-	rospy.sleep(2)
+        rospy.sleep(2)
 
         self.server = actionlib.SimpleActionServer(self.__action_name, FindHumanAction, execute_cb=self.execute, auto_start=False)
         self.server.start()
 
     def image_callback(self, data):
         self.image = np.asarray(ToOpenCV(data)) #convert image
-        self.height, self.width, _ = image.shape
+        cv2.imshow("test", self.image)
+        cv2.waitKey(1)
 
     def execute(self, goal):
         print "Executing"
-        
+
         person_found = 0
 
         while(1):
@@ -61,16 +62,27 @@ class MoveCloseToTagServer:
                     person_found = 1
                     cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
 
-            cv2.imshow('img',img)
+            # Testing
+            cv2.imshow('image',self.image)
             cv2.waitKey(2)
 
             if person_found == 1:
-                
+                # Ask them for help
+                soundhandle = SoundClient()
+                rospy.sleep(1)
+                soundhandle.playWave('Human please help clear my path')
+                rospy.sleep(2)
+            else:
+                # Keep looking for human (spinning)
+                twist_cmd = Twist()
+                rospy.sleep(1)
+                twist_cmd.angular.z = .5
+                self.cmd_vel.publish(twist_cmd)
 
 
 
 
 if __name__ == '__main__':
     rospy.init_node('find_human_server')
-    server = MoveCloseToTagServer(rospy.get_name())
+    server = FindHumanServer(rospy.get_name())
     rospy.spin()
